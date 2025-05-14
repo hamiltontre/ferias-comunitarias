@@ -2,21 +2,19 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Feria extends Model
 {
-    // Campos que se pueden llenar con create() o update()
-    protected $fillable = [
-        'nombre',
-        'fecha',
-        'lugar',
-        'descripcion'
-    ];
+    use HasFactory;
 
-    // Relación muchos a muchos con Emprendedor
-    public function emprendedores(): BelongsToMany
+    protected $fillable = ['nombre', 'fecha', 'lugar', 'descripcion'];
+    
+    // Agregar esto para convertir automáticamente el campo fecha a Carbon
+    protected $dates = ['fecha'];
+
+    public function emprendedores()
     {
         return $this->belongsToMany(Emprendedor::class, 'feria_emprendedor');
     }
