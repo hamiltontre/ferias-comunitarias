@@ -1,6 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\FeriaController;
+use App\Http\Controllers\EmprendedorController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -16,3 +19,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::resource('ferias', FeriaController::class);
+Route::resource('emprendedores', EmprendedorController::class);
+Route::post('/ferias/{feria}/emprendedores', [FeriaController::class, 'attachEmprendedor']);
