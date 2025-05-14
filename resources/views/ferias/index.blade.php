@@ -19,7 +19,7 @@
             @foreach($ferias as $feria)
                 <tr>
                     <td>{{ $feria->nombre }}</td>
-                    <td>{{ $feria->fecha->format('d/m/Y') }}</td>
+                    <td>{{ $feria->fecha }}</td>
                     <td>{{ $feria->lugar }}</td>
                     <td>
                         <a href="{{ route('ferias.show', $feria->id) }}" class="btn btn-info btn-sm">Ver</a>

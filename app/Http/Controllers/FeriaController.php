@@ -19,20 +19,23 @@ class FeriaController extends Controller
         return view('ferias.create');
     }
 
-    public function store(Request $request)
-    {
-        $request->validate([
-            'nombre' => 'required',
-            'fecha' => 'required|date',
-            'lugar' => 'required',
-            'descripcion' => 'required',
-        ]);
-
-        Feria::create($request->all());
-
-        return redirect()->route('ferias.index')
-            ->with('success', 'Feria creada exitosamente.');
-    }
+   public function store(Request $request)
+{
+    $validated = $request->validate([
+        'nombre' => 'required',
+        'fecha' => 'required|date',
+        'lugar' => 'required',
+        'descripcion' => 'required',
+    ]);
+    
+    // Convertir fecha al formato correcto si es necesario
+    // $validated['fecha'] = Carbon::createFromFormat('d/m/Y', $request->fecha)->format('Y-m-d');
+    
+    Feria::create($validated);
+    
+    return redirect()->route('ferias.index')
+        ->with('success', 'Feria creada exitosamente.');
+}
 
     public function show(Feria $feria)
     {

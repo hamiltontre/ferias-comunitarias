@@ -11,9 +11,11 @@ class Feria extends Model
 
     protected $fillable = ['nombre', 'fecha', 'lugar', 'descripcion'];
     
-    // Agregar esto para convertir automáticamente el campo fecha a Carbon
-    protected $dates = ['fecha'];
-
+    // Añade esto para convertir automáticamente el campo a Carbon
+    protected $casts = [
+        'fecha' => 'date:d/m/Y', // Formato de fecha
+    ];
+    
     public function emprendedores()
     {
         return $this->belongsToMany(Emprendedor::class, 'feria_emprendedor');
