@@ -15,6 +15,9 @@
             <div class="mb-3">
                 <label for="telefono" class="form-label">Teléfono</label>
                 <input type="text" class="form-control" id="telefono" name="telefono" required>
+                @error('telefono')  
+        <div class="invalid-feedback">{{ $message }}</div>
+    @enderror
             </div>
             
             <div class="mb-3">
