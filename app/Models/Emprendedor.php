@@ -2,19 +2,21 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Emprendedor extends Model
 {
-    use HasFactory;
-
-    // Especificar el nombre de la tabla
     protected $table = 'emprendedores';
+    
+    protected $fillable = [
+        'nombre',
+        'telefono',
+        'rubro',
+        'descripcion'
+    ];
 
-    protected $fillable = ['nombre', 'telefono', 'rubro'];
-
-    public function ferias()
+    public function ferias(): BelongsToMany
     {
         return $this->belongsToMany(Feria::class, 'feria_emprendedor');
     }

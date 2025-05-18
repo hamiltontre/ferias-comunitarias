@@ -9,33 +9,38 @@ use Illuminate\Http\Request;
 class FeriaController extends Controller
 {
     public function index()
-    {
-        $ferias = Feria::all();
+    { 
+        $ferias = Feria::with('emprendedores')->get();  
         return view('ferias.index', compact('ferias'));
     }
 
-    public function create()
-    {
-        return view('ferias.create');
-    }
+  public function create()
+{
+    $emprendedores = Emprendedor::all(); // Obtener todos los emprendedores
+    
+    return view('ferias.create', compact('emprendedores'));
+}
 
    public function store(Request $request)
 {
     $validated = $request->validate([
-        'nombre' => 'required',
+        'nombre' => 'required|string|max:100',
         'fecha' => 'required|date',
-        'lugar' => 'required',
-        'descripcion' => 'required',
+        'lugar' => 'required|string|max:100',
+        'descripcion' => 'required|string',
+        'emprendedores' => 'required|array|min:1',
+        'emprendedores.*' => 'exists:emprendedores,id'
     ]);
-    
-    // Convertir fecha al formato correcto si es necesario
-    // $validated['fecha'] = Carbon::createFromFormat('d/m/Y', $request->fecha)->format('Y-m-d');
-    
-    Feria::create($validated);
-    
-    return redirect()->route('ferias.index')
-        ->with('success', 'Feria creada exitosamente.');
+
+    $feria = Feria::create($validated);
+
+
+    $feria->emprendedores()->sync($request->emprendedores);
+
+    return redirect()->route('ferias.show', $feria)
+        ->with('success', 'Feria creada exitosamente');
 }
+
 
     public function show(Feria $feria)
     {
@@ -44,10 +49,16 @@ class FeriaController extends Controller
         return view('ferias.show', compact('feria', 'emprendedores', 'allEmprendedores'));
     }
 
-    public function edit(Feria $feria)
-    {
-        return view('ferias.edit', compact('feria'));
-    }
+   public function edit(Feria $feria)
+{
+    $emprendedores = Emprendedor::all(); // Obtener todos los emprendedores
+    $feria->load('emprendedores'); // Cargar relaciones
+    
+    return view('ferias.edit', [
+        'feria' => $feria,
+        'emprendedores' => $emprendedores
+    ]);
+}
 
     public function update(Request $request, Feria $feria)
     {

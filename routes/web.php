@@ -14,4 +14,10 @@ Route::post('ferias/{feria}/emprendedores', [FeriaController::class, 'attachEmpr
 Route::delete('ferias/{feria}/emprendedores/{emprendedor}', [FeriaController::class, 'detachEmprendedor'])->name('ferias.detachEmprendedor');
 
 // Rutas para Emprendedores
-Route::resource('emprendedores', EmprendedorController::class);
+Route::resource('emprendedores', EmprendedorController::class)->parameters([
+    'emprendedores' => 'emprendedor' 
+]);
+Route::post('emprendedores/{emprendedor}/ferias', [EmprendedorController::class, 'attachFeria'])
+     ->name('emprendedores.attachFeria');
+Route::delete('emprendedores/{emprendedor}/ferias/{feria}', [EmprendedorController::class, 'detachFeria'])
+     ->name('emprendedores.detachFeria');

@@ -13,6 +13,7 @@ return new class extends Migration
             $table->string('nombre');
             $table->string('telefono');
             $table->string('rubro');
+            $table->text('descripcion')->nullable();
             $table->timestamps();
         });
     }

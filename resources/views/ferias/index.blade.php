@@ -34,4 +34,38 @@
             @endforeach
         </tbody>
     </table>
+
+    @if(session('confirmar_eliminar_feria'))
+    <div class="modal fade show" style="display: block; background: rgba(0,0,0,0.5)">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-warning">
+                    <h5 class="modal-title">¡Atención!</h5>
+                </div>
+                <div class="modal-body">
+                    <p>{{ session('confirmar_eliminar_feria')['message'] }}</p>
+                    <p>¿Deseas continuar con la eliminación?</p>
+                </div>
+                <div class="modal-footer">
+                    <form method="POST" action="{{ route('ferias.destroy', session('confirmar_eliminar_feria')['feria_id']) }}">
+                        @csrf
+                        @method('DELETE')
+                        <input type="hidden" name="confirmar" value="1">
+                        <button type="button" class="btn btn-secondary" onclick="cerrarModal()">Cancelar</button>
+                        <button type="submit" class="btn btn-danger">Confirmar Eliminación</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    @endif
 @endsection
+
+@push('scripts')
+<script>
+function cerrarModal() {
+    const modal = document.querySelector('.modal');
+    if (modal) modal.style.display = 'none';
+}
+</script>
+@endpush

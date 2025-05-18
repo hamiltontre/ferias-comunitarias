@@ -9,14 +9,16 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up(): void
-    {
-       Schema::create('feria_emprendedor', function (Blueprint $table) {
-    $table->foreignId('feria_id')->constrained('ferias'); 
-    $table->foreignId('emprendedor_id')->constrained('emprendedores'); 
-    $table->timestamps();
-});
-    }
+   public function up()
+{
+    Schema::create('feria_emprendedor', function (Blueprint $table) {
+        // LÍNEAS MODIFICADAS (agregar onDelete cascade)
+        $table->foreignId('feria_id')->constrained('ferias')->onDelete('cascade');  
+        $table->foreignId('emprendedor_id')->constrained('emprendedores')->onDelete('cascade');  
+        $table->timestamps();
+    });
+}
+
 
     /**
      * Reverse the migrations.
